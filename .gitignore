@@ -1,0 +1,42 @@
+find . -type f -name "*.ts" -o -name "*.json" | head -50
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pino-pretty.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test coverage
+coverage/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Uploaded files (if stored locally)
+uploads/
+EOF
+
+# 11.6 Main Routes Index (src/routes/index.ts)
