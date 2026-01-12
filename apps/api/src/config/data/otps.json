@@ -1,0 +1,22 @@
+[
+  {
+    "id": "52d96096-1fc4-4d6c-a8e8-6787a5510db2",
+    "userId": "70ca0800-50f7-4c63-b2d1-63d2ada6a318",
+    "code": "663216",
+    "type": "REGISTER",
+    "expiresAt": "2026-01-12T18:24:07.606Z",
+    "verified": false,
+    "attempts": 0,
+    "createdAt": "2026-01-12T18:14:07.606Z"
+  },
+  {
+    "id": "34f2b57b-3ca6-416c-9fcc-98b6f5bb0cfb",
+    "userId": "57e3527b-df13-4b3e-b3dd-cb365b799c8c",
+    "code": "980474",
+    "type": "REGISTER",
+    "expiresAt": "2026-01-12T18:30:57.263Z",
+    "verified": false,
+    "attempts": 0,
+    "createdAt": "2026-01-12T18:20:57.263Z"
+  }
+]

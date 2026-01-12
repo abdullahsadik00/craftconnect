@@ -1,0 +1,20 @@
+[
+  {
+    "id": "04031d1a-a226-4989-9ea0-c6ff765a3117",
+    "userId": "70ca0800-50f7-4c63-b2d1-63d2ada6a318",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3MGNhMDgwMC01MGY3LTRjNjMtYjJkMS02M2QyYWRhNmEzMTgiLCJyb2xlIjoiUFJPVklERVIiLCJpYXQiOjE3NjgyNDE2NDcsImV4cCI6MTc3MDgzMzY0N30.JEk79PVN0hUyJH8CAbR9AreUynzwWyoJEv6AhQOYed0",
+    "userAgent": null,
+    "ipAddress": null,
+    "expiresAt": "2026-02-11T18:14:07.606Z",
+    "createdAt": "2026-01-12T18:14:07.606Z"
+  },
+  {
+    "id": "56c48638-6140-4966-9e47-93776c934f5d",
+    "userId": "57e3527b-df13-4b3e-b3dd-cb365b799c8c",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1N2UzNTI3Yi1kZjEzLTRiM2UtYjNkZC1jYjM2NWI3OTljOGMiLCJyb2xlIjoiUFJPVklERVIiLCJpYXQiOjE3NjgyNDIwNTcsImV4cCI6MTc3MDgzNDA1N30.JJa9mnqAbvSUJNU1Tavowjm5Sp2O98AXi9M8XDMT_w8",
+    "userAgent": null,
+    "ipAddress": null,
+    "expiresAt": "2026-02-11T18:20:57.262Z",
+    "createdAt": "2026-01-12T18:20:57.262Z"
+  }
+]

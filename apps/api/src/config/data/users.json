@@ -1,0 +1,24 @@
+[
+  {
+    "id": "70ca0800-50f7-4c63-b2d1-63d2ada6a318",
+    "email": "level1test@example.com",
+    "phoneNumber": null,
+    "passwordHash": "$2a$12$Pr9GL80UCRy5xwOk8dLb8OD.2Iq12IKob.TYDyksMJOCsi9IAotu.",
+    "role": "PROVIDER",
+    "isVerified": false,
+    "lastLoginAt": "2026-01-12T18:14:07.585Z",
+    "createdAt": "2026-01-12T18:14:07.585Z",
+    "updatedAt": "2026-01-12T18:14:07.585Z"
+  },
+  {
+    "id": "57e3527b-df13-4b3e-b3dd-cb365b799c8c",
+    "email": "mismatch@example.com",
+    "phoneNumber": null,
+    "passwordHash": "$2a$12$ccvXC6z7.UPMU2Jq26hWnO0zS/bc6dHu3BbXGpYtciu0BBo5s6Vyq",
+    "role": "PROVIDER",
+    "isVerified": false,
+    "lastLoginAt": "2026-01-12T18:20:57.256Z",
+    "createdAt": "2026-01-12T18:20:57.256Z",
+    "updatedAt": "2026-01-12T18:20:57.256Z"
+  }
+]

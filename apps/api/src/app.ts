@@ -18,9 +18,9 @@ import helmet from 'helmet';
 import cors from 'cors';
 import pinoHttp from 'pino-http';
 
-import { config } from './config/index.ts';
+import { config } from './config/index.js';
 
-import logger from './utils/logger.ts';
+import logger from './utils/logger.js';
 import routes from './routes/index.js';
 import { errorMiddleware, notFoundMiddleware }from './middleware/error.middleware.js';
 import { rateLimiter }from './middleware/rateLimiter.middleware.js';
