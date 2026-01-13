@@ -130,10 +130,10 @@ export const errorMiddleware = (
             message: config.isProd 
                 ? "An unexpected error occurred" 
                 : err.message,
-            ...(config.isDev && { stack: err.stack }),
+            ...(config.isDev && { stack: err.stack }),  // To be removed in production
         },
     });
-};                                                          // ← Fixed: removed extra }
+};
 
 // ============================================
 // 404 Not Found Middleware

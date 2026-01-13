@@ -1,0 +1,234 @@
+### ═══════════════════════════════════════════════════════════════════
+### CRAFTCONNECT AUTH API TESTS
+### Level 2: Complete Authentication Testing
+### ═══════════════════════════════════════════════════════════════════
+
+### Configuration
+@baseUrl = http://localhost:5001/api/v1
+@contentType = application/json
+
+### ═══════════════════════════════════════════════════════════════════
+###                   SECTION 1: REGISTRATION
+### ═══════════════════════════════════════════════════════════════════
+
+### TEST 1.1: Register New User (Should PASS)
+# @name registerUser
+POST {{baseUrl}}/auth/register/email
+Content-Type: {{contentType}}
+
+{
+    "email": "level2test@example.com",
+    "password": "SecurePass123!",
+    "confirmPassword": "SecurePass123!"
+}
+
+### Save the tokens from above response
+@accessToken = {{registerUser.response.body.data.tokens.accessToken}}
+@refreshToken = {{registerUser.response.body.data.tokens.refreshToken}}
+@userId = {{registerUser.response.body.data.user.id}}
+
+
+### ═══════════════════════════════════════════════════════════════════
+###                   SECTION 2: LOGIN TESTS
+### ═══════════════════════════════════════════════════════════════════
+
+### TEST 2.1: Login with Valid Credentials (Should PASS - 200)
+# @name loginUser
+POST {{baseUrl}}/auth/login/email
+Content-Type: {{contentType}}
+
+{
+    "email": "level2test@example.com",
+    "password": "SecurePass123!"
+}
+
+###
+
+### TEST 2.2: Login with Wrong Password (Should FAIL - 401)
+POST {{baseUrl}}/auth/login/email
+Content-Type: {{contentType}}
+
+{
+    "email": "level2test@example.com",
+    "password": "WrongPassword123!"
+}
+
+###
+
+### TEST 2.3: Login with Non-Existent Email (Should FAIL - 401)
+POST {{baseUrl}}/auth/login/email
+Content-Type: {{contentType}}
+
+{
+    "email": "nobody@example.com",
+    "password": "SecurePass123!"
+}
+
+###
+
+### TEST 2.4: Login with Invalid Email Format (Should FAIL - 400/422)
+POST {{baseUrl}}/auth/login/email
+Content-Type: {{contentType}}
+
+{
+    "email": "not-an-email",
+    "password": "SecurePass123!"
+}
+
+###
+
+### TEST 2.5: Login with Missing Password (Should FAIL - 400/422)
+POST {{baseUrl}}/auth/login/email
+Content-Type: {{contentType}}
+
+{
+    "email": "level2test@example.com"
+}
+
+###
+
+### TEST 2.6: Login with Empty Body (Should FAIL - 400/422)
+POST {{baseUrl}}/auth/login/email
+Content-Type: {{contentType}}
+
+{}
+
+
+### ═══════════════════════════════════════════════════════════════════
+###                   SECTION 3: PROTECTED ROUTES
+### ═══════════════════════════════════════════════════════════════════
+
+### First, login to get fresh tokens
+# @name freshLogin
+POST {{baseUrl}}/auth/login/email
+Content-Type: {{contentType}}
+
+{
+    "email": "level2test@example.com",
+    "password": "SecurePass123!"
+}
+
+###
+
+### Update tokens from fresh login
+@accessToken = {{freshLogin.response.body.data.tokens.accessToken}}
+@refreshToken = {{freshLogin.response.body.data.tokens.refreshToken}}
+
+### TEST 3.1: Access Protected Route WITH Token (Should PASS)
+GET {{baseUrl}}/providers/me
+Authorization: Bearer {{accessToken}}
+
+###
+
+### TEST 3.2: Access Protected Route WITHOUT Token (Should FAIL - 401)
+GET {{baseUrl}}/providers/me
+
+###
+
+### TEST 3.3: Access Protected Route with INVALID Token (Should FAIL - 401)
+GET {{baseUrl}}/providers/me
+Authorization: Bearer invalid.token.here
+
+###
+
+### TEST 3.4: Access Protected Route with MALFORMED Header (Should FAIL - 401)
+GET {{baseUrl}}/providers/me
+Authorization: {{accessToken}}
+
+###
+
+### TEST 3.5: Access Protected Route with Wrong Scheme (Should FAIL - 401)
+GET {{baseUrl}}/providers/me
+Authorization: Basic {{accessToken}}
+
+
+### ═══════════════════════════════════════════════════════════════════
+###                   SECTION 4: TOKEN REFRESH
+### ═══════════════════════════════════════════════════════════════════
+
+### TEST 4.1: Refresh Token - Valid (Should PASS - 200)
+# @name refreshTokens
+POST {{baseUrl}}/auth/refresh
+Content-Type: {{contentType}}
+
+{
+    "refreshToken": "{{refreshToken}}"
+}
+
+###
+
+### TEST 4.2: Refresh Token - Invalid Token (Should FAIL - 401)
+POST {{baseUrl}}/auth/refresh
+Content-Type: {{contentType}}
+
+{
+    "refreshToken": "invalid.refresh.token.here"
+}
+
+###
+
+### TEST 4.3: Refresh Token - Missing Token (Should FAIL - 400/422)
+POST {{baseUrl}}/auth/refresh
+Content-Type: {{contentType}}
+
+{}
+
+###
+
+### TEST 4.4: Refresh Token - Empty String (Should FAIL - 400/422)
+POST {{baseUrl}}/auth/refresh
+Content-Type: {{contentType}}
+
+{
+    "refreshToken": ""
+}
+
+
+### ═══════════════════════════════════════════════════════════════════
+###                   SECTION 5: LOGOUT
+### ═══════════════════════════════════════════════════════════════════
+
+### TEST 5.1: Logout - Valid (Should PASS - 200)
+POST {{baseUrl}}/auth/logout
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+###
+
+### TEST 5.2: Logout - Without Token (Should FAIL - 401)
+POST {{baseUrl}}/auth/logout
+Content-Type: {{contentType}}
+
+###
+
+### TEST 5.3: Use Token After Logout (Should FAIL - 401)
+### (Run this AFTER running TEST 5.1)
+GET {{baseUrl}}/providers/me
+Authorization: Bearer {{accessToken}}
+
+
+### ═══════════════════════════════════════════════════════════════════
+###                   SECTION 6: GET CURRENT USER
+### ═══════════════════════════════════════════════════════════════════
+
+### Login again after logout tests
+# @name reLogin
+POST {{baseUrl}}/auth/login/email
+Content-Type: {{contentType}}
+
+{
+    "email": "level2test@example.com",
+    "password": "SecurePass123!"
+}
+
+###
+@accessToken = {{reLogin.response.body.data.tokens.accessToken}}
+
+### TEST 6.1: Get Current User (Should PASS - 200)
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{accessToken}}
+
+###
+
+### TEST 6.2: Get Current User - No Token (Should FAIL - 401)
+GET {{baseUrl}}/auth/me

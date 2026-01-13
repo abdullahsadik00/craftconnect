@@ -20,5 +20,16 @@
     "lastLoginAt": "2026-01-12T18:20:57.256Z",
     "createdAt": "2026-01-12T18:20:57.256Z",
     "updatedAt": "2026-01-12T18:20:57.256Z"
+  },
+  {
+    "id": "c7a2967e-b288-4991-a882-025d2108cf40",
+    "email": "level2test@example.com",
+    "phoneNumber": null,
+    "passwordHash": "$2a$12$FRXhhHwNuGPezfxAwWh.ueRB.fwHUAA9Vx0ndNsjHrTYMe.4Kmqza",
+    "role": "PROVIDER",
+    "isVerified": false,
+    "lastLoginAt": "2026-01-13T18:33:11.418Z",
+    "createdAt": "2026-01-13T18:28:02.848Z",
+    "updatedAt": "2026-01-13T18:28:02.848Z"
   }
 ]

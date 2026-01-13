@@ -267,3 +267,186 @@ Code	Meaning
 404	Not Found
 409	Conflict
 500	Server Error
+
+1. Why is the password mismatch bug dangerous?
+   Your answer: I didn't include confirm password in my schema and logic
+
+2. Why should we hide stack traces in production?
+   Your answer: It will tell hacker what are the project structure and they can use it for there own benefits
+
+3. What status code should "duplicate email" return?
+   a) 400 Bad Request
+   b) 401 Unauthorized  
+   c) 409 Conflict
+   d) 500 Internal Error
+   Your answer: b) 401 Unauthorized  
+
+4. Where does YOUR validation logic run?
+   (middleware / controller / service)
+   Your answer: middleware
+
+   # Level 2 Test Results
+**Tester:** [Your Name]
+**Date:** [Today's Date]
+**Server:** http://localhost:5001
+
+---
+
+## Section 1: Registration
+
+| Test ID | Description | Expected | Actual Status | Result |
+|---------|-------------|----------|---------------|--------|
+| 1.1 | Register new user | 201    |               |{
+  "success": true,
+  "data": {
+    "tokens": {
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2EyOTY3ZS1iMjg4LTQ5OTEtYTg4Mi0wMjVkMjEwOGNmNDAiLCJyb2xlIjoiUFJPVklERVIiLCJpYXQiOjE3NjgzMjg4ODIsImV4cCI6MTc2ODkzMzY4Mn0.13m1Nea1gMatsJkq7REbCEA_TiS8Qg0Md6NG5H1SbVo",
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2EyOTY3ZS1iMjg4LTQ5OTEtYTg4Mi0wMjVkMjEwOGNmNDAiLCJyb2xlIjoiUFJPVklERVIiLCJpYXQiOjE3NjgzMjg4ODIsImV4cCI6MTc3MDkyMDg4Mn0.E2D9xB2g4qYRTsg2VarSj7NIIKoGalpYB0SqFWy3Pnk"
+    },
+    "user": {
+      "id": "c7a2967e-b288-4991-a882-025d2108cf40",
+      "email": "level2test@example.com",
+      "phoneNumber": null,
+      "role": "PROVIDER",
+      "isVerified": false
+    },
+    "hasProvider": false
+  }
+}|
+
+---
+
+## Section 2: Login Tests
+
+| Test ID | Description | Expected | Actual Status | Result |
+|---------|-------------|----------|---------------|--------|
+| 2.1 | Valid credentials | 200 | 200 |{
+  "success": true,
+  "data": {
+    "tokens": {
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2EyOTY3ZS1iMjg4LTQ5OTEtYTg4Mi0wMjVkMjEwOGNmNDAiLCJyb2xlIjoiUFJPVklERVIiLCJpYXQiOjE3NjgzMjkxOTEsImV4cCI6MTc2ODkzMzk5MX0.F6LcjxpTgca-eltDHc_eJRNTfpXdjh6-nwqgiumtgtE",
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2EyOTY3ZS1iMjg4LTQ5OTEtYTg4Mi0wMjVkMjEwOGNmNDAiLCJyb2xlIjoiUFJPVklERVIiLCJpYXQiOjE3NjgzMjkxOTEsImV4cCI6MTc3MDkyMTE5MX0.nNRzJ2_A5LQUrI-iUdD9i3ZR__kStigxw0MXBddTYbc"
+    },
+    "user": {
+      "id": "c7a2967e-b288-4991-a882-025d2108cf40",
+      "email": "level2test@example.com",
+      "phoneNumber": null,
+      "role": "PROVIDER",
+      "isVerified": false
+    },
+    "hasProvider": false
+  }
+} |
+| 2.2 | Wrong password | 401 | 500 |{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "Invalid email or password",
+    "stack": "Error: Invalid email or password\n    at AuthService.loginWithEmail (/Users/Admin/Documents/craftconnect/apps/api/src/services/auth.service.ts:114:13)\n    at loginWithEmail (/Users/Admin/Documents/craftconnect/apps/api/src/controllers/auth.controller.ts:66:22)"
+  }
+} |
+| 2.3 | Non-existent email | 401 | 500|{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "Invalid email or password",
+    "stack": "Error: Invalid email or password\n    at AuthService.loginWithEmail (/Users/Admin/Documents/craftconnect/apps/api/src/services/auth.service.ts:103:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at loginWithEmail (/Users/Admin/Documents/craftconnect/apps/api/src/controllers/auth.controller.ts:66:22)"
+  }
+} |
+| 2.4 | Invalid email format | 400/422 |500 | {
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "Validation failed",
+    "stack": "Error: Validation failed\n    at <anonymous> (/Users/Admin/Documents/craftconnect/apps/api/src/middleware/validate.middleware.ts:56:14)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+  }
+}|
+| 2.5 | Missing password | 400/422 | 500|{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "Too many login attempts. Please try again in 8 minutes.",
+    "stack": "Error: Too many login attempts. Please try again in 8 minutes.\n    at authRateLimiter (/Users/Admin/Documents/craftconnect/apps/api/src/middleware/rateLimiter.middleware.ts:136:11)\n    at Layer.handle [as handle_request] (/Users/Admin/Documents/craftconnect/node_modules/express/lib/router/layer.js:95:5)\n    at next (/Users/Admin/Documents/craftconnect/node_modules/express/lib/router/route.js:149:13)\n    at Route.dispatch (/Users/Admin/Documents/craftconnect/node_modules/express/lib/router/route.js:119:3)\n    at Layer.handle [as handle_request] (/Users/Admin/Documents/craftconnect/node_modules/express/lib/router/layer.js:95:5)\n    at /Users/Admin/Documents/craftconnect/node_modules/express/lib/router/index.js:284:15\n    at Function.process_params (/Users/Admin/Documents/craftconnect/node_modules/express/lib/router/index.js:346:12)\n    at next (/Users/Admin/Documents/craftconnect/node_modules/express/lib/router/index.js:280:10)\n    at Function.handle (/Users/Admin/Documents/craftconnect/node_modules/express/lib/router/index.js:175:3)\n    at router (/Users/Admin/Documents/craftconnect/node_modules/express/lib/router/index.js:47:12)"
+  }
+} |
+| 2.6 | Empty body | 400/422 |500 |{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "Too many login attempts. Please try again in 7 minutes.",
+    "stack": "Error: Too many login attempts. Please try again in 7 minutes.\n    at authRateLimiter (/Users/Admin/Documents/craftconnect/apps/api/src/middleware/rateLimiter.middleware.ts:136:11)\n    at Layer.handle [as handle_request] (/Users/Admin/Documents/craftconnect/node_modules/express/lib/router/layer.js:95:5)\n    at next (/Users/Admin/Documents/craftconnect/node_modules/express/lib/router/route.js:149:13)\n    at Route.dispatch (/Users/Admin/Documents/craftconnect/node_modules/express/lib/router/route.js:119:3)\n    at Layer.handle [as handle_request] (/Users/Admin/Documents/craftconnect/node_modules/express/lib/router/layer.js:95:5)\n    at /Users/Admin/Documents/craftconnect/node_modules/express/lib/router/index.js:284:15\n    at Function.process_params (/Users/Admin/Documents/craftconnect/node_modules/express/lib/router/index.js:346:12)\n    at next (/Users/Admin/Documents/craftconnect/node_modules/express/lib/router/index.js:280:10)\n    at Function.handle (/Users/Admin/Documents/craftconnect/node_modules/express/lib/router/index.js:175:3)\n    at router (/Users/Admin/Documents/craftconnect/node_modules/express/lib/router/index.js:47:12)"
+  }
+} |
+
+---
+
+## Section 3: Protected Routes
+
+| Test ID | Description | Expected | Actual Status | Result |
+|---------|-------------|----------|---------------|--------|
+| 3.1 | With valid token | 200/404* | | |
+| 3.2 | Without token | 401 | | |
+| 3.3 | Invalid token | 401 | | |
+| 3.4 | Malformed header | 401 | | |
+| 3.5 | Wrong scheme (Basic) | 401 | | |
+
+*Note: 404 is OK if no provider profile exists yet
+
+---
+
+## Section 4: Token Refresh
+
+| Test ID | Description | Expected | Actual Status | Result |
+|---------|-------------|----------|---------------|--------|
+| 4.1 | Valid refresh token | 200 | | |
+| 4.2 | Invalid refresh token | 401 | | |
+| 4.3 | Missing token | 400/422 | | |
+| 4.4 | Empty string token | 400/422 | | |
+
+---
+
+## Section 5: Logout
+
+| Test ID | Description | Expected | Actual Status | Result |
+|---------|-------------|----------|---------------|--------|
+| 5.1 | Valid logout | 200 | | |
+| 5.2 | Without token | 401 | | |
+| 5.3 | Token after logout | 401 | | |
+
+---
+
+## Section 6: Get Current User
+
+| Test ID | Description | Expected | Actual Status | Result |
+|---------|-------------|----------|---------------|--------|
+| 6.1 | With token | 200 | | |
+| 6.2 | Without token | 401 | | |
+
+---
+
+## Summary
+
+- **Total Tests:** 17
+- **Passed:** 
+- **Failed:** 
+- **Pass Rate:** %
+
+---
+
+## Bugs/Issues Found
+
+1. 
+
+2. 
+
+3. 
+
+---
+
+## Notes & Observations
+
+-
+
+-
+
+-

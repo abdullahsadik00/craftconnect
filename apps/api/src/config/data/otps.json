@@ -18,5 +18,15 @@
     "verified": false,
     "attempts": 0,
     "createdAt": "2026-01-12T18:20:57.263Z"
+  },
+  {
+    "id": "a3b4cb23-4076-4b81-9adb-d9f277558f5a",
+    "userId": "c7a2967e-b288-4991-a882-025d2108cf40",
+    "code": "256282",
+    "type": "REGISTER",
+    "expiresAt": "2026-01-13T18:38:02.853Z",
+    "verified": false,
+    "attempts": 0,
+    "createdAt": "2026-01-13T18:28:02.853Z"
   }
 ]
