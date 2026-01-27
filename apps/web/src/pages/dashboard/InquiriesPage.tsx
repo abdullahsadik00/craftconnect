@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { api } from '../../lib/api';
+// import { api } from '../../lib/api';
 import type { Inquiry, InquiryStats } from '../../types';
+import { MOCK_INQUIRIES, MOCK_STATS } from '../../data/mock';
 
 export const InquiriesPage: React.FC = () => {
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
@@ -13,12 +14,19 @@ export const InquiriesPage: React.FC = () => {
 
   const fetchData = async () => {
     try {
+      /*
       const [inquiriesRes, statsRes] = await Promise.all([
         api.get('/inquiries'),
         api.get('/inquiries/stats')
       ]);
       setInquiries(inquiriesRes.data.data);
       setStats(statsRes.data.data);
+      */
+     
+      // Mock fetch
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setInquiries(MOCK_INQUIRIES);
+      setStats(MOCK_STATS);
     } catch (error) {
       console.error('Failed to fetch inquiries', error);
     } finally {
@@ -28,8 +36,13 @@ export const InquiriesPage: React.FC = () => {
 
   const updateStatus = async (id: string, status: string) => {
       try {
-          await api.put(`/inquiries/${id}/status`, { status });
-          fetchData(); // Refresh list
+          // await api.put(`/inquiries/${id}/status`, { status });
+          
+          // Mock update
+          await new Promise(resolve => setTimeout(resolve, 500));
+          setInquiries(inquiries.map(i => i.id === id ? { ...i, status: status as any } : i));
+          
+          // fetchData(); // Refresh list
       } catch (error) {
           console.error("Failed to update status", error);
       }

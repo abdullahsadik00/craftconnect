@@ -2,7 +2,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { api } from '../../lib/api';
+// import { api } from '../../lib/api';
+import { MOCK_AUTH_RESPONSE } from '../../data/mock';
 
 export const RegisterPage: React.FC = () => {
   const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm();
@@ -13,17 +14,25 @@ export const RegisterPage: React.FC = () => {
     try {
       // Assuming register endpoint logs in automatically or returns token
       // If not, we might need to redirect to login
+      /*
       const response = await api.post('/auth/register/email', {
         ...data,
         role: 'PROVIDER' // Defaulting to PROVIDER for now as per requirement
       });
-      
+
       login(response.data.data);
+      */
+
+      // Mock register
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log('Registering with:', data);
+      login(MOCK_AUTH_RESPONSE);
+
       navigate('/dashboard');
     } catch (error: any) {
          console.error(error);
-         setError('root', { 
-            message: error.response?.data?.message || 'Registration failed' 
+         setError('root', {
+            message: error.response?.data?.message || 'Registration failed'
         });
     }
   };
@@ -36,10 +45,10 @@ export const RegisterPage: React.FC = () => {
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div className="rounded-md shadow-sm -space-y-px">
-             {/* Name field might be needed? API docs showed register/email takes email, password, role. 
-                 If user needs name, it might be in profile update. 
-                 Let's check API validator later. For now just email/password. 
-                 Wait, validators/auth.validator.ts would tell us. 
+             {/* Name field might be needed? API docs showed register/email takes email, password, role.
+                 If user needs name, it might be in profile update.
+                 Let's check API validator later. For now just email/password.
+                 Wait, validators/auth.validator.ts would tell us.
                  Assuming basic email/pass for now.
              */}
             <div>

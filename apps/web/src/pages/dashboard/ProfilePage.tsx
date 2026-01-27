@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { api } from '../../lib/api';
+// import { api } from '../../lib/api';
 import type { ProviderProfile } from '../../types';
+import { MOCK_PROFILE } from '../../data/mock';
 
 export const ProfilePage: React.FC = () => {
   const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<ProviderProfile>();
@@ -14,10 +15,16 @@ export const ProfilePage: React.FC = () => {
 
   const fetchProfile = async () => {
     try {
-      const response = await api.get('/providers/me');
-      setProfile(response.data.data);
-      // Pre-fill form
-      const data = response.data.data;
+      // const response = await api.get('/providers/me');
+      // setProfile(response.data.data);
+      // // Pre-fill form
+      // const data = response.data.data;
+
+      // Mock fetch
+      await new Promise(resolve => setTimeout(resolve, 500));
+      const data = MOCK_PROFILE;
+      setProfile(data);
+
       if (data) {
         Object.keys(data).forEach((key) => {
            setValue(key as any, data[key as keyof ProviderProfile]);
@@ -33,11 +40,18 @@ export const ProfilePage: React.FC = () => {
 
   const onSubmit = async (data: any) => {
     try {
+      /*
       if (profile) {
         await api.put('/providers/me', data);
       } else {
         await api.post('/providers', data);
       }
+      */
+      // Mock update
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log('Updated profile:', data);
+      console.log('Previous profile:', profile);
+
       await fetchProfile();
       alert('Profile saved successfully!');
     } catch (error: any) {

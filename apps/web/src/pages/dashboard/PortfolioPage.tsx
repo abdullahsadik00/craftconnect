@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { api } from '../../lib/api';
+// import { api } from '../../lib/api';
 import type { PortfolioItem } from '../../types';
 import { Trash2 } from 'lucide-react';
+import { MOCK_PORTFOLIO } from '../../data/mock';
 
 export const PortfolioPage: React.FC = () => {
   const [items, setItems] = useState<PortfolioItem[]>([]);
@@ -14,8 +15,12 @@ export const PortfolioPage: React.FC = () => {
 
   const fetchItems = async () => {
     try {
-      const response = await api.get('/portfolio');
-      setItems(response.data.data);
+      // const response = await api.get('/portfolio');
+      // setItems(response.data.data);
+
+      // Mock fetch
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setItems(MOCK_PORTFOLIO);
     } catch (error) {
       console.error('Failed to fetch portfolio', error);
     }
@@ -23,9 +28,23 @@ export const PortfolioPage: React.FC = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      await api.post('/portfolio', data);
+      // await api.post('/portfolio', data);
+
+      // Mock create
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log('Added portfolio item:', data);
+      const newItem: PortfolioItem = {
+          ...data,
+          id: `item-${Date.now()}`,
+          providerId: 'provider-1',
+          displayOrder: items.length + 1,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+      };
+      setItems([...items, newItem]);
+
       reset();
-      fetchItems();
+      // fetchItems(); // We just updated local state
     } catch (error: any) {
       alert(error.response?.data?.message || 'Failed to add item');
     }
@@ -34,8 +53,13 @@ export const PortfolioPage: React.FC = () => {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this item?')) return;
     try {
-      await api.delete(`/portfolio/${id}`);
-      fetchItems();
+      // await api.delete(`/portfolio/${id}`);
+
+      // Mock delete
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setItems(items.filter(i => i.id !== id));
+
+      // fetchItems();
     } catch (error) {
       console.error('Failed to delete item', error);
     }

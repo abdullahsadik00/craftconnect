@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { api } from '../lib/api';
+// import { api } from '../lib/api';
 import type { User, AuthResponse } from '../types';
+import { MOCK_USER } from '../data/mock';
 
 interface AuthContextType {
   user: User | null;
@@ -30,7 +31,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(null);
     setIsLoading(false);
     // Optional: Call logout endpoint
-    api.post('/auth/logout').catch(() => {});
+    // api.post('/auth/logout').catch(() => {});
   };
 
   const checkAuth = async () => {
@@ -41,8 +42,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     try {
-      const response = await api.get<{ data: User }>('/auth/me');
-      setUser(response.data.data);
+      // const response = await api.get<{ data: User }>('/auth/me');
+      // setUser(response.data.data);
+      // Mock auth check
+      await new Promise(resolve => setTimeout(resolve, 500)); // Simulate delay
+      setUser(MOCK_USER);
     } catch (error) {
       console.error('Auth check failed:', error);
       // If check fails (e.g. token expired and refresh failed), logout

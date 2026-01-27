@@ -2,7 +2,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { api } from '../../lib/api';
+// import { api } from '../../lib/api';
+import { MOCK_AUTH_RESPONSE } from '../../data/mock';
 
 export const LoginPage: React.FC = () => {
   const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm();
@@ -11,13 +12,17 @@ export const LoginPage: React.FC = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      const response = await api.post('/auth/login/email', data);
-      login(response.data.data);
+      // const response = await api.post('/auth/login/email', data);
+      // login(response.data.data);
+      // Mock login
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate delay
+      console.log('Logging in with:', data);
+      login(MOCK_AUTH_RESPONSE);
       navigate('/dashboard');
     } catch (error: any) {
         console.error(error);
-        setError('root', { 
-            message: error.response?.data?.message || 'Login failed' 
+        setError('root', {
+            message: error.response?.data?.message || 'Login failed'
         });
     }
   };

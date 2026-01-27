@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { api } from '../lib/api';
+// import { api } from '../lib/api';
 import type { ProviderProfile } from '../types';
 import { Phone, Mail, MapPin } from 'lucide-react';
+import { MOCK_PROFILE } from '../data/mock';
 
 export const ProviderPublicPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [provider, setProvider] = useState<ProviderProfile | null>(null);
-
+  
   const { register, handleSubmit, reset, formState: { errors, isSubmitting, isSubmitSuccessful } } = useForm();
 
   useEffect(() => {
@@ -19,8 +20,13 @@ export const ProviderPublicPage: React.FC = () => {
 
   const fetchProvider = async () => {
     try {
-      const response = await api.get(`/providers/slug/${slug}`);
-      setProvider(response.data.data);
+      // const response = await api.get(`/providers/slug/${slug}`);
+      // setProvider(response.data.data);
+      
+      // Mock fetch
+      await new Promise(resolve => setTimeout(resolve, 500));
+      // In real app we'd use slug to find correct profile, here just return the mock one
+      setProvider(MOCK_PROFILE);
     } catch (error) {
       console.error('Failed to fetch provider', error);
     }
@@ -29,12 +35,23 @@ export const ProviderPublicPage: React.FC = () => {
   const onInquirySubmit = async (data: any) => {
     if (!provider) return;
     try {
-      await api.post('/inquiries', {
-        providerId: provider.id,
-        ...data
-      });
+      // await api.post('/inquiries', {
+      //   providerId: provider.id,
+      //   ...data
+      // });
+      
+      // Mock submit
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log('Sent inquiry:', data);
+
       reset();
-      alert('Inquiry sent successfully!');
+      // alert('Inquiry sent successfully!'); // Alert handled by UI state isSubmitSuccessful if we want, but form logic handles it
+      // Actually isSubmitSuccessful is from useForm, but we need to ensure the async action completed without error.
+      // The original code used alert, let's keep it or just rely on the UI message below form
+      // The UI below shows success message if isSubmitSuccessful is true. 
+      // However, RHF sets isSubmitSuccessful to true only if onSubmit returns successfully (promise resolves).
+      // So we are good.
+      
     } catch (error: any) {
       alert(error.response?.data?.message || 'Failed to send inquiry');
     }
