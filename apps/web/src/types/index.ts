@@ -15,6 +15,24 @@ export interface AuthResponse {
   refreshToken: string;
 }
 
+export type TemplateId = 'minimal' | 'creative' | 'professional' | 'industrial';
+export type ThemeId = 'default' | 'ocean' | 'forest' | 'sunset' | 'dark' | 'berry';
+
+export interface WebsiteSection {
+  id: string;
+  type: 'hero' | 'about' | 'services' | 'portfolio' | 'contact';
+  order: number;
+  isVisible: boolean;
+  title?: string;
+  content?: string;
+}
+
+export interface WebsiteConfig {
+  templateId: TemplateId;
+  themeId: ThemeId;
+  sections: WebsiteSection[];
+}
+
 export interface ProviderProfile {
   id: string;
   userId: string;
@@ -30,6 +48,7 @@ export interface ProviderProfile {
   isVerified: boolean;
   profileImage?: string;
   coverImage?: string;
+  websiteConfig?: WebsiteConfig;
   createdAt: string;
   updatedAt: string;
 }

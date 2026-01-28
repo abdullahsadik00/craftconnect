@@ -26,6 +26,17 @@ export const MOCK_PROFILE: ProviderProfile = {
   address: '123 Main St, Cityville',
   isActive: true,
   isVerified: true,
+  websiteConfig: {
+    templateId: 'professional',
+    themeId: 'ocean',
+    sections: [
+      { id: 'hero', type: 'hero', order: 0, isVisible: true },
+      { id: 'about', type: 'about', order: 1, isVisible: true },
+      { id: 'services', type: 'services', order: 2, isVisible: true },
+      { id: 'portfolio', type: 'portfolio', order: 3, isVisible: true },
+      { id: 'contact', type: 'contact', order: 4, isVisible: true }
+    ]
+  },
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
 };

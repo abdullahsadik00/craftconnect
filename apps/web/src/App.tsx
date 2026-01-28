@@ -9,6 +9,7 @@ import { DashboardPage } from './pages/dashboard/DashboardPage';
 import { ProfilePage } from './pages/dashboard/ProfilePage';
 import { PortfolioPage } from './pages/dashboard/PortfolioPage';
 import { InquiriesPage } from './pages/dashboard/InquiriesPage';
+import { WebsiteBuilderPage } from './pages/dashboard/WebsiteBuilderPage';
 import { ProviderPublicPage } from './pages/ProviderPublicPage';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
             <Route path="profile" element={<ProfilePage />} />
             <Route path="portfolio" element={<PortfolioPage />} />
             <Route path="inquiries" element={<InquiriesPage />} />
+            <Route path="website" element={<WebsiteBuilderPage />} />
           </Route>
         </Routes>
       </AuthProvider>

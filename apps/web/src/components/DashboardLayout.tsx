@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, User, Briefcase, MessageSquare, LogOut } from 'lucide-react';
+import { LayoutDashboard, User, Briefcase, MessageSquare, LogOut, Globe } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 export const DashboardLayout: React.FC = () => {
@@ -11,6 +11,7 @@ export const DashboardLayout: React.FC = () => {
   const navigation = [
     { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Profile', href: '/dashboard/profile', icon: User },
+    { name: 'Website', href: '/dashboard/website', icon: Globe },
     { name: 'Portfolio', href: '/dashboard/portfolio', icon: Briefcase },
     { name: 'Inquiries', href: '/dashboard/inquiries', icon: MessageSquare },
   ];
